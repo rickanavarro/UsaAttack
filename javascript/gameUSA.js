@@ -11,10 +11,12 @@ const Game = {
         h: undefined,
     },
     player: undefined,
-    isMoving: false,
     isJumping: false,
+    isMoving: false,
+    frameIndex: 0,
     platforms: [],
     enemies: [],
+    background: undefined,
     getPlatformsData() {
         return [
             {
@@ -45,20 +47,20 @@ const Game = {
                 height: this.canvasSize.h / 60 * 2,
                 info: 'down border'
             },
-            {
-                posX: 0,
-                posY: 0,
-                width: this.canvasSize.w / 40 * 2,
-                height: this.canvasSize.h,
-                info: 'left border'
-            },
-            {
-                posX: this.canvasSize.w - (this.canvasSize.w / 40 * 2),
-                posY: 0,
-                width: this.canvasSize.w / 40 * 2,
-                height: this.canvasSize.h,
-                info: 'right border'
-            },
+            // {
+            //     posX: 0,
+            //     posY: 0,
+            //     width: this.canvasSize.w / 40 * 2,
+            //     height: this.canvasSize.h,
+            //     info: 'left border'
+            // },
+            // {
+            //     posX: this.canvasSize.w - (this.canvasSize.w / 40 * 2),
+            //     posY: 0,
+            //     width: this.canvasSize.w / 40 * 2,
+            //     height: this.canvasSize.h,
+            //     info: 'right border'
+            // },
             {
                 posX: 0,
                 posY: 0,
@@ -108,20 +110,20 @@ const Game = {
                 height: this.canvasSize.h / 60 * 3,
                 info: "sixth staircase"
             },
-            {
-                posX: this.canvasSize.w / 40 * 10,
-                posY: this.canvasSize.h / 40 * 22,
-                width: this.canvasSize.w / 40 * 2,
-                height: this.canvasSize.h / 60 * 10,
-                info: "first column"
-            },
-            {
-                posX: this.canvasSize.w - ((this.canvasSize.w / 40) * 15),
-                posY: this.canvasSize.h / 2,
-                width: this.canvasSize.w / 40 * 2,
-                height: this.canvasSize.h / 12 * 3.5,
-                info: "second column"
-            },
+            // {
+            //     posX: this.canvasSize.w / 40 * 10,
+            //     posY: this.canvasSize.h / 40 * 22,
+            //     width: this.canvasSize.w / 40 * 2,
+            //     height: this.canvasSize.h / 60 * 10,
+            //     info: "first column"
+            // },
+            // {
+            //     posX: this.canvasSize.w - ((this.canvasSize.w / 40) * 15),
+            //     posY: this.canvasSize.h / 2,
+            //     width: this.canvasSize.w / 40 * 2,
+            //     height: this.canvasSize.h / 12 * 3.5,
+            //     info: "second column"
+            // },
             {
                 posX: this.canvasSize.w / 40 * 16,
                 posY: this.canvasSize.h / 60 * 43,
@@ -192,13 +194,13 @@ const Game = {
                 height: this.canvasSize.h / 60 * 2,
                 info: 'first platform on the right'
             },
-            {
-                posX: this.canvasSize.w / 40 * 17.5,
-                posY: this.canvasSize.h / 60 * 12,
-                width: this.canvasSize.w / 40 * 2,
-                height: this.canvasSize.h / 60 * 6,
-                info: 'first part of the s'
-            },
+            // {
+            //     posX: this.canvasSize.w / 40 * 17.5,
+            //     posY: this.canvasSize.h / 60 * 12,
+            //     width: this.canvasSize.w / 40 * 2,
+            //     height: this.canvasSize.h / 60 * 6,
+            //     info: 'first part of the s'
+            // },
             {
                 posX: this.canvasSize.w / 40 * 17.5,
                 posY: this.canvasSize.h / 60 * 16,
@@ -206,13 +208,13 @@ const Game = {
                 height: this.canvasSize.h / 60 * 2,
                 info: 'second part of the s'
             },
-            {
-                posX: this.canvasSize.w / 40 * 27,
-                posY: this.canvasSize.h / 60 * 16,
-                width: this.canvasSize.w / 40 * 2,
-                height: this.canvasSize.h / 60 * 6,
-                info: 'last part of the s'
-            }
+            // {
+            //     posX: this.canvasSize.w / 40 * 27,
+            //     posY: this.canvasSize.h / 60 * 16,
+            //     width: this.canvasSize.w / 40 * 2,
+            //     height: this.canvasSize.h / 60 * 6,
+            //     info: 'last part of the s'
+            // }
 
         ]
     },
@@ -222,11 +224,9 @@ const Game = {
         this.reset()
         this.start()
     },
-
     setContext() {
 
         this.ctx = document.querySelector('canvas').getContext('2d')
-
     },
     setDimmensions() {
         this.canvasSize = {
@@ -237,15 +237,15 @@ const Game = {
         document.querySelector('canvas').setAttribute('height', this.canvasSize.h)
     },
     reset() {
-        this.player = new Player(this.ctx, this.canvasSize, this.canvasSize.w / 40 * 4, this.canvasSize.h / 60 * 52, this.canvasSize.w / 40, this.canvasSize.h / 60 * 2)
+        this.player = new Player(this.ctx, this.canvasSize, this.canvasSize.w / 40 * 4, this.canvasSize.h / 60 * 52, this.canvasSize.w / 40 * 2, this.canvasSize.h / 60 * 4)
         this.platforms = this.getPlatformsData().map(elm => new Platform(this.ctx, this.canvasSize, elm.posX, elm.posY, elm.width, elm.height))
         this.enemies.push(
-            new Enemy(this.ctx, this.canvasSize, this.canvasSize.w / 40 * 10, this.canvasSize.h / 60 * 25, this.canvasSize.w / 40, this.canvasSize.h / 60 * 2),
-            new Enemy(this.ctx, this.canvasSize, this.canvasSize.w / 40 * 31, this.canvasSize.h / 60 * 13, this.canvasSize.w / 40, this.canvasSize.h / 60 * 2),
-            new Enemy(this.ctx, this.canvasSize, this.canvasSize.w / 40 * 4, this.canvasSize.h / 60 * 47, this.canvasSize.w / 40, this.canvasSize.h / 60 * 2),
-            new Enemy(this.ctx, this.canvasSize, this.canvasSize.w / 40 * 29, this.canvasSize.h / 60 * 33, this.canvasSize.w / 40, this.canvasSize.h / 60 * 2),
-            new Enemy(this.ctx, this.canvasSize, this.canvasSize.w / 40 * 22, this.canvasSize.h / 60 * 40, this.canvasSize.w / 40, this.canvasSize.h / 60 * 2),
-            new Enemy(this.ctx, this.canvasSize, this.canvasSize.w / 40 * 18, this.canvasSize.h / 60 * 7, this.canvasSize.w / 40, this.canvasSize.h / 60 * 2),
+            new Enemy(this.ctx, this.canvasSize, this.canvasSize.w / 40 * 4, this.canvasSize.h / 60 * 47, this.canvasSize.w / 40 * 2, this.canvasSize.h / 60 * 3),//first enemy
+            new Enemy(this.ctx, this.canvasSize, this.canvasSize.w / 40 * 10, this.canvasSize.h / 60 * 25, this.canvasSize.w / 40 * 2, this.canvasSize.h / 60 * 3),//second enemy
+            new Enemy(this.ctx, this.canvasSize, this.canvasSize.w / 40 * 18, this.canvasSize.h / 60 * 7, this.canvasSize.w / 40 * 2, this.canvasSize.h / 60 * 3),//third enemy
+            new Enemy(this.ctx, this.canvasSize, this.canvasSize.w / 40 * 22, this.canvasSize.h / 60 * 40, this.canvasSize.w / 40 * 2, this.canvasSize.h / 60 * 3),//fourth enemy
+            new Enemy(this.ctx, this.canvasSize, this.canvasSize.w / 40 * 29, this.canvasSize.h / 60 * 33, this.canvasSize.w / 40 * 2, this.canvasSize.h / 60 * 3),//fifth enemy
+            new Enemy(this.ctx, this.canvasSize, this.canvasSize.w / 40 * 36, this.canvasSize.h / 60 * 13, this.canvasSize.w / 40 * 2, this.canvasSize.h / 60 * 3),//sixth enemy
         )
     },
     drawPlayer() {
@@ -271,12 +271,10 @@ const Game = {
                     && this.player.playerSpecs.velocity.y >= 0) {
                     this.player.playerSpecs.pos.y = platform[i].platformSpecs.pos.y - this.player.playerSpecs.size.h;
                     this.player.playerSpecs.velocity.y = 0;
-                    this.player.isJumping = false
-                    //bottom player withh platform top
+                    this.player.isJumping = false   //bottom player withh platform top
                 }
                 else if (this.player.playerSpecs.pos.y < platform[i].platformSpecs.pos.y + platform[i].platformSpecs.size.h
                     && this.player.playerSpecs.velocity.y <= 0) {
-                    console.log('hola')
                     this.player.playerSpecs.pos.y = platform[i].platformSpecs.pos.y + platform[i].platformSpecs.size.h;
                     this.player.playerSpecs.velocity.y = 0;         //player top with bottom platform
                 }
@@ -290,17 +288,28 @@ const Game = {
                     this.player.playerSpecs.pos.x = platform[i].platformSpecs.pos.x + platform[i].platformSpecs.size.w;
                     this.player.playerSpecs.velocity.x = 0;  //players left with platforms righ
                 }
+                // if (this.player.playerSpecs.pos.y + this.player.playerSpecs.size.h < platform[i].platformSpecs.pos.y &&//bottom player withh platform top
+                //     this.player.playerSpecs.pos.y > platform[i].platformSpecs.pos.y + platform[i].platformSpecs.size.h &&//player top with bottom platform
+                //     this.player.playerSpecs.pos.x + this.player.playerSpecs.size.w < platform[i].platformSpecs.pos.x &&//players right with platforms left
+                //     this.player.playerSpecs.pos.x > platform[i].platformSpecs.pos.x + platform[i].platformSpecs.size.w)//players left with platforms righ
+                // {
+                //     this.player.isJumping = false
+                //     this.player.playerSpecs.velocity.y = 0
+                //     this.player.playerSpecs.pos.y = platform[i].platformSpecs.pos.y - this.player.playerSpecs.size.h
+                // }
             }
         }
     },
-    clearEnemies() {
 
-    },
     start() {
+        this.createBackgroundReal()
         setInterval(() => {
+            this.frameIndex > 5000 ? this.frameIndex = 0 : this.frameIndex++
+
             this.clearAll()
             this.drawAll()
             this.isCollision()
+            this.playerCollisionGameOver()
         }, 50)
     },
 
@@ -309,8 +318,39 @@ const Game = {
     },
 
     drawAll() {
+        this.background.drawBackgroundReal()
         this.platforms.forEach(elm => elm.drawBackground())
         this.drawPlayer()
-        this.enemies.forEach(elm => elm.drawEnemy())
+        this.enemies.forEach(elm => elm.drawEnemy(this.frameIndex))
+
     },
+    playerCollisionGameOver() {
+
+        this.enemies.forEach((eachEnemy, i) => {
+            eachEnemy.burguers.forEach((eachBullet) => {
+                if (
+                    // eje x
+                    this.player.playerSpecs.pos.x <= eachBullet.bulletsSpecs.pos.x + eachBullet.bulletsSpecs.size.w &&
+                    this.player.playerSpecs.pos.x + this.player.playerSpecs.size.w > eachBullet.bulletsSpecs.pos.x &&
+
+                    // eje y
+                    this.player.playerSpecs.pos.y < eachBullet.bulletsSpecs.pos.y + eachBullet.bulletsSpecs.size.h &&
+                    this.player.playerSpecs.pos.y + this.player.playerSpecs.size.h > eachBullet.bulletsSpecs.pos.y
+
+                ) {
+                    console.log(eachBullet)
+
+                    eachEnemy.burguers = eachEnemy.burguers.filter(bur => bur.bulletsSpecs.pos.x + bur.bulletsSpecs.size.w == this.player.playerSpecs.pos.x)
+                    this.player.playerSpecs.size.h += 10
+                    this.player.playerSpecs.size.w += 10
+                }
+
+
+            })
+        })
+    },
+    createBackgroundReal() {
+        this.background = new Background(this.ctx, this.canvasSize)
+    },
+
 }

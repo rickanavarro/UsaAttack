@@ -9,16 +9,28 @@ class Burguers {
             velocity: { x: 8, y: 1 },
         }
         this.radius = 8
+        this.shootsleft = false
+        this.imageInstance = undefined
+        this.init()
+    }
+    init() {
+        this.imageInstance = new Image()
+        this.imageInstance.src = "./images/hamburger.png"
     }
     drawBurguer() {
-        this.ctx.beginPath();
-        this.ctx.fillStyle = "black";
-        this.ctx.arc(this.bulletsSpecs.pos.x, this.bulletsSpecs.pos.y, this.radius, 0, Math.PI * 2);
-        this.ctx.fill();
-        this.ctx.closePath();
         this.move()
+        this.ctx.drawImage(
+            this.imageInstance,
+            this.bulletsSpecs.pos.x,
+            this.bulletsSpecs.pos.y,
+            this.bulletsSpecs.size.w,
+            this.bulletsSpecs.size.h,
+        )
     }
     move() {
-        this.bulletsSpecs.pos.x += this.bulletsSpecs.velocity.x;
+        if (!this.shootsleft) {
+            this.bulletsSpecs.pos.x += this.bulletsSpecs.velocity.x;
+        }
+        else { this.bulletsSpecs.pos.x -= this.bulletsSpecs.velocity.x }
     }
 }

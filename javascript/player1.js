@@ -12,12 +12,11 @@ class Player {
         }
         this.keys = []
         this.isJumping = false
-        this.isMoving = false
         this.init()
     }
     init() {
-        // this.imageInstance = new Image()
-        // this.imageInstance.src = './images/trumpSprite.png'
+        this.imageInstance = new Image()
+        this.imageInstance.src = './images/trumpSprite.png'
     }
     setEventListeners() {
         window.addEventListener("keydown", e => {
@@ -37,7 +36,7 @@ class Player {
             }
         })
 
-        if (this.keys.includes("ArrowRight") && !this.isMoving) {
+        if (this.keys.includes("ArrowRight")) {
             // this.playerSpecs.pos.x + 10
             this.playerSpecs.pos.x += this.playerSpecs.velocity.x
 
@@ -53,10 +52,19 @@ class Player {
             this.playerSpecs.pos.y += this.playerSpecs.velocity.y
         }
     }
+    animate(framescounter) {
+        if (framesCounter % 4 == 0) {
+            this.image.framesIndex++;
+        }
+
+        if (this.image.framesIndex >= this.image.frames) {
+            this.image.framesIndex = 0
+        }
+    }
     jump() {
         if (!this.isJumping) {
             this.isJumping = true
-            this.playerSpecs.pos.y += -200
+            this.playerSpecs.pos.y += -100
 
         }
     }
@@ -64,8 +72,17 @@ class Player {
     draw() {
         this.move()
         this.setEventListeners()
-        this.ctx.fillStyle = "black"
-        this.ctx.fillRect(this.playerSpecs.pos.x, this.playerSpecs.pos.y, this.playerSpecs.size.w, this.playerSpecs.size.h)
+        this.ctx.drawImage(
+            this.imageInstance,
+            0,
+            100,
+            80,// this.playerSpecs.size.w / this.playerSpecs.frames * this.playerSpecs.framesIndex,
+            70,// cambiar tamaño del muchacho
+            this.playerSpecs.pos.x,
+            this.playerSpecs.pos.y,
+            this.playerSpecs.size.w,
+            this.playerSpecs.size.h,
+        )
     }
     move() {
 
