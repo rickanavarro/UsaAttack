@@ -11,15 +11,13 @@ class Enemy {
         this.shootsleft = shootingleft
         this.init()
         this.drawEnemy()
-        // this.shootleft()
-
     }
     init() {
         this.imageInstance = new Image()
-        this.imageInstance.src = "./images/clinton.png "
+        this.imageInstance.src = "./images/clinton.png"
     }
     drawEnemy(frames) {
-        //  this.burguers.forEach(bur => bur.drawBurguer())
+
         this.ctx.drawImage(
             this.imageInstance,
             this.enemySpecs.pos.x,
@@ -42,7 +40,4 @@ class Enemy {
     drawBullets() {
         this.burguers.forEach(bur => bur.drawBurguer())
     }
-    //     shootleft(shootingleft) {
-
-    //     }
 }

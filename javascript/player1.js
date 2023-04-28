@@ -74,9 +74,9 @@ class Player {
         this.setEventListeners()
         this.ctx.drawImage(
             this.imageInstance,
-            0,
+            30,
             100,
-            80,// this.playerSpecs.size.w / this.playerSpecs.frames * this.playerSpecs.framesIndex,
+            55,// this.playerSpecs.size.w / this.playerSpecs.frames * this.playerSpecs.framesIndex,
             70,// cambiar tamaño del muchacho
             this.playerSpecs.pos.x,
             this.playerSpecs.pos.y,

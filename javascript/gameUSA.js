@@ -47,27 +47,6 @@ const Game = {
                 height: this.canvasSize.h / 60 * 2,
                 info: 'down border'
             },
-            // {
-            //     posX: 0,
-            //     posY: 0,
-            //     width: this.canvasSize.w / 40 * 2,
-            //     height: this.canvasSize.h,
-            //     info: 'left border'
-            // },
-            // {
-            //     posX: this.canvasSize.w - (this.canvasSize.w / 40 * 2),
-            //     posY: 0,
-            //     width: this.canvasSize.w / 40 * 2,
-            //     height: this.canvasSize.h,
-            //     info: 'right border'
-            // },
-            {
-                posX: 0,
-                posY: 0,
-                width: this.canvasSize.w,
-                height: this.canvasSize.h / 60 * 2,
-                info: 'upper border'
-            },
             {
                 posX: this.canvasSize.w - (this.canvasSize.w / 40 * 13),
                 posY: this.canvasSize.h - (this.canvasSize.h / 60 * 4),
@@ -110,20 +89,6 @@ const Game = {
                 height: this.canvasSize.h / 60 * 3,
                 info: "sixth staircase"
             },
-            // {
-            //     posX: this.canvasSize.w / 40 * 10,
-            //     posY: this.canvasSize.h / 40 * 22,
-            //     width: this.canvasSize.w / 40 * 2,
-            //     height: this.canvasSize.h / 60 * 10,
-            //     info: "first column"
-            // },
-            // {
-            //     posX: this.canvasSize.w - ((this.canvasSize.w / 40) * 15),
-            //     posY: this.canvasSize.h / 2,
-            //     width: this.canvasSize.w / 40 * 2,
-            //     height: this.canvasSize.h / 12 * 3.5,
-            //     info: "second column"
-            // },
             {
                 posX: this.canvasSize.w / 40 * 16,
                 posY: this.canvasSize.h / 60 * 43,
@@ -194,13 +159,6 @@ const Game = {
                 height: this.canvasSize.h / 60 * 2,
                 info: 'first platform on the right'
             },
-            // {
-            //     posX: this.canvasSize.w / 40 * 17.5,
-            //     posY: this.canvasSize.h / 60 * 12,
-            //     width: this.canvasSize.w / 40 * 2,
-            //     height: this.canvasSize.h / 60 * 6,
-            //     info: 'first part of the s'
-            // },
             {
                 posX: this.canvasSize.w / 40 * 17.5,
                 posY: this.canvasSize.h / 60 * 16,
@@ -208,14 +166,6 @@ const Game = {
                 height: this.canvasSize.h / 60 * 2,
                 info: 'second part of the s'
             },
-            // {
-            //     posX: this.canvasSize.w / 40 * 27,
-            //     posY: this.canvasSize.h / 60 * 16,
-            //     width: this.canvasSize.w / 40 * 2,
-            //     height: this.canvasSize.h / 60 * 6,
-            //     info: 'last part of the s'
-            // }
-
         ]
     },
     init() {
@@ -245,7 +195,6 @@ const Game = {
             new Enemy(this.ctx, this.canvasSize, this.canvasSize.w / 40 * 18, this.canvasSize.h / 60 * 7, this.canvasSize.w / 40 * 2, this.canvasSize.h / 60 * 3),//third enemy
             new Enemy(this.ctx, this.canvasSize, this.canvasSize.w / 40 * 22, this.canvasSize.h / 60 * 40, this.canvasSize.w / 40 * 2, this.canvasSize.h / 60 * 3),//fourth enemy
             new Enemy(this.ctx, this.canvasSize, this.canvasSize.w / 40 * 29, this.canvasSize.h / 60 * 33, this.canvasSize.w / 40 * 2, this.canvasSize.h / 60 * 3),//fifth enemy
-            new Enemy(this.ctx, this.canvasSize, this.canvasSize.w / 40 * 36, this.canvasSize.h / 60 * 13, this.canvasSize.w / 40 * 2, this.canvasSize.h / 60 * 3),//sixth enemy
         )
     },
     drawPlayer() {
@@ -253,14 +202,6 @@ const Game = {
     },
     isCollision() {
         let platform = this.platforms
-        // this.platforms.forEach(platform => {
-        //     if (this.player.playerSpecs.pos.x < platform.platformSpecs.pos.x + platform.platformSpecs.size.w &&
-        //         this.player.playerSpecs.pos.x + this.player.playerSpecs.size.w > platform.platformSpecs.pos.x &&
-        //         this.player.playerSpecs.pos.y < platform.platformSpecs.pos.y + platform.platformSpecs.size.h &&
-        //         this.player.playerSpecs.size.h + this.player.playerSpecs.pos.y > platform.platformSpecs.pos.y) {
-
-        //     }
-        // })
         for (let i = 0; i < platform.length; i++) {
             if (this.player.playerSpecs.pos.x < platform[i].platformSpecs.pos.x + platform[i].platformSpecs.size.w &&
                 this.player.playerSpecs.pos.x + this.player.playerSpecs.size.w > platform[i].platformSpecs.pos.x &&
@@ -288,15 +229,6 @@ const Game = {
                     this.player.playerSpecs.pos.x = platform[i].platformSpecs.pos.x + platform[i].platformSpecs.size.w;
                     this.player.playerSpecs.velocity.x = 0;  //players left with platforms righ
                 }
-                // if (this.player.playerSpecs.pos.y + this.player.playerSpecs.size.h < platform[i].platformSpecs.pos.y &&//bottom player withh platform top
-                //     this.player.playerSpecs.pos.y > platform[i].platformSpecs.pos.y + platform[i].platformSpecs.size.h &&//player top with bottom platform
-                //     this.player.playerSpecs.pos.x + this.player.playerSpecs.size.w < platform[i].platformSpecs.pos.x &&//players right with platforms left
-                //     this.player.playerSpecs.pos.x > platform[i].platformSpecs.pos.x + platform[i].platformSpecs.size.w)//players left with platforms righ
-                // {
-                //     this.player.isJumping = false
-                //     this.player.playerSpecs.velocity.y = 0
-                //     this.player.playerSpecs.pos.y = platform[i].platformSpecs.pos.y - this.player.playerSpecs.size.h
-                // }
             }
         }
     },
@@ -314,7 +246,9 @@ const Game = {
     },
 
     clearAll() {
+
         this.ctx.clearRect(0, 0, this.canvasSize.w, this.canvasSize.h)
+
     },
 
     drawAll() {
@@ -338,10 +272,7 @@ const Game = {
                     this.player.playerSpecs.pos.y + this.player.playerSpecs.size.h > eachBullet.bulletsSpecs.pos.y
 
                 ) {
-                    console.log(eachBullet)
-
                     eachEnemy.burguers = eachEnemy.burguers.filter(bur => bur.bulletsSpecs.pos.x + bur.bulletsSpecs.size.w == this.player.playerSpecs.pos.x)
-                    this.player.playerSpecs.size.h += 10
                     this.player.playerSpecs.size.w += 10
                 }
 
